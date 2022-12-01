@@ -3,15 +3,15 @@ package days
 class Day1 : Day(1) {
 
     override fun partOne(): Any {
-        return inputList.take(2)
-            .map { it.uppercase() }
-            .joinToString(" ")
+        return inputString.split("\n\n")
+            .maxOf { it -> it.split("\n").sumOf { it.toInt() } }
     }
 
     override fun partTwo(): Any {
-        return inputString.split("\n")
-            .filterNot { it.isEmpty() }
-            .map { it.uppercase() }
-            .last()
+        return inputString.split("\n\n")
+            .map { it -> it.split("\n").sumOf { it.toInt() } }
+            .sortedDescending()
+            .take(3)
+            .sum()
     }
 }

@@ -11,13 +11,10 @@ class Day1Test : FunSpec({
     val dayOne = Day1()
 
     test("testPartOne") {
-        dayOne.partOne().shouldBe("THIS IS")
+        dayOne.partOne().shouldBe(24000)
     }
 
     test("testPartTwo") {
-        val partTwo = dayOne.partTwo()
-        partTwo.shouldNotBeNull()
-            .shouldBeInstanceOf<String>()
-            .shouldBe("FILE")
+        dayOne.partTwo().shouldBe(45000)
     }
 })
