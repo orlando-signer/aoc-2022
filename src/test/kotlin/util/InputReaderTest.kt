@@ -1,21 +1,18 @@
 package util
 
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.collection.IsIterableContainingInOrder.contains
-import org.hamcrest.core.Is.`is`
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.shouldBe
 
-class InputReaderTest {
+class InputReaderTest : FunSpec({
 
-    @Test
-    fun testReadInputAsString() {
+    test("testReadInputAsString") {
         val testInputAsString = InputReader.getInputAsString(1)
-        assertThat(testInputAsString, `is`("this\nis\na\ntest input\nfile\n"))
+        testInputAsString.shouldBe("this\nis\na\ntest input\nfile\n")
     }
 
-    @Test
-    fun testReadInputAsList() {
+    test("testReadInputAsList") {
         val testInputAsList = InputReader.getInputAsList(1)
-        assertThat(testInputAsList, contains("this", "is", "a", "test input", "file"))
+        testInputAsList.shouldContainExactly("this", "is", "a", "test input", "file")
     }
-}
+})

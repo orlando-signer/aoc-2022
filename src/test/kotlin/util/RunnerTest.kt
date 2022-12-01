@@ -2,19 +2,17 @@ package util
 
 import com.github.stefanbirkner.systemlambda.SystemLambda.tapSystemErr
 import com.github.stefanbirkner.systemlambda.SystemLambda.tapSystemOut
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.`is`
-import org.hamcrest.Matchers.matchesPattern
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldMatch
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
-class RunnerTest {
+class RunnerTest : FunSpec({
 
-    @Test
-    fun testPrintDay() {
+    test("testPrintDay") {
         val day1 = tapSystemOut { Runner.main(arrayOf("1")) }
-        assertThat(day1, matchesPattern(
+        day1.shouldMatch(
             """
             
             === DAY 1 ===
@@ -22,15 +20,15 @@ class RunnerTest {
             Part 2: FILE         \(.*\)
             
             """.trimIndent()
-        ))
+        )
     }
 
-    @Test
-    fun testPrintErrors() {
+
+    test("testPrintErrors") {
         val dayNotAString = tapSystemErr { Runner.main(arrayOf("one")) }
-        assertThat(dayNotAString, `is`("\n=== ERROR ===\nDay argument must be an integer\n"))
+        dayNotAString.shouldBe("\n=== ERROR ===\nDay argument must be an integer\n")
 
         val dayNotExists = tapSystemErr { Runner.main(arrayOf("99")) }
-        assertThat(dayNotExists, `is`("\n=== ERROR ===\nDay 99 not found\n"))
+        dayNotExists.shouldBe("\n=== ERROR ===\nDay 99 not found\n")
     }
-}
+})
