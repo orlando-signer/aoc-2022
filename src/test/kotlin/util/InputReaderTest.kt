@@ -7,12 +7,12 @@ import io.kotest.matchers.shouldBe
 class InputReaderTest : FunSpec({
 
     test("testReadInputAsString") {
-        val testInputAsString = InputReader.getInputAsString(1)
+        val testInputAsString = InputReader.getInputAsString(0)
         testInputAsString.shouldBe("this\nis\na\ntest input\nfile\n")
     }
 
     test("testReadInputAsList") {
-        val testInputAsList = InputReader.getInputAsList(1)
+        val testInputAsList = InputReader.getInputAsList(0)
         testInputAsList.shouldContainExactly("this", "is", "a", "test input", "file")
     }
 })

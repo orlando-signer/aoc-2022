@@ -11,11 +11,11 @@ import kotlin.time.ExperimentalTime
 class RunnerTest : FunSpec({
 
     test("testPrintDay") {
-        val day1 = tapSystemOut { Runner.main(arrayOf("1")) }
+        val day1 = tapSystemOut { Runner.main(arrayOf("0")) }
         day1.shouldMatch(
             """
             
-            === DAY 1 ===
+            === DAY 0 ===
             Part 1: THIS IS      \(.*\)
             Part 2: FILE         \(.*\)
             
