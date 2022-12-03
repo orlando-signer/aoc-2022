@@ -7,14 +7,14 @@ import io.kotest.matchers.types.shouldBeInstanceOf
 
 class Day0Test : FunSpec({
 
-    val dayOne = Day0()
+    val day = Day0()
 
     test("testPartOne") {
-        dayOne.partOne().shouldBe("THIS IS")
+        day.partOne().shouldBe("THIS IS")
     }
 
     test("testPartTwo") {
-        val partTwo = dayOne.partTwo()
+        val partTwo = day.partTwo()
         partTwo.shouldNotBeNull()
             .shouldBeInstanceOf<String>()
             .shouldBe("FILE")

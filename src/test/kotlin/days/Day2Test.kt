@@ -3,15 +3,15 @@ package days
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 
-class Day1Test : FunSpec({
+class Day2Test : FunSpec({
 
-    val day = Day1()
+    val day = Day2()
 
     test("testPartOne") {
-        day.partOne().shouldBe(24000)
+        day.partOne().shouldBe(15)
     }
 
     test("testPartTwo") {
-        day.partTwo().shouldBe(45000)
+        day.partTwo().shouldBe(12)
     }
 })
