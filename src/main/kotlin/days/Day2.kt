@@ -1,7 +1,5 @@
 package days
 
-import java.lang.IllegalArgumentException
-
 class Day2 : Day(2) {
 
     private val pointsMatrix = arrayOf(
