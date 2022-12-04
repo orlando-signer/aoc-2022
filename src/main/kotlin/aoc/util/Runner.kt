@@ -1,6 +1,6 @@
-package util
+package aoc.util
 
-import days.Day
+import aoc.Day
 import org.reflections.Reflections
 import kotlin.math.max
 import kotlin.time.ExperimentalTime
@@ -10,7 +10,7 @@ import kotlin.time.measureTimedValue
 @ExperimentalTime
 object Runner {
 
-    private val reflections = Reflections("days")
+    private val reflections = Reflections("aoc")
 
     @JvmStatic
     fun main(args: Array<String>) {
@@ -33,8 +33,9 @@ object Runner {
         }
         else {
             val allDayClasses = getAllDayClasses()
+            println("allDayClasses: $allDayClasses")
             if (allDayClasses != null) {
-                allDayClasses.sortedBy { dayNumber(it.simpleName) }.forEach { printDay(it) }
+                allDayClasses.sortedBy { it.name }.forEach { printDay(it) }
             }
             else {
                 printError("Couldn't find day classes - make sure you're in the right directory and try building again")
@@ -47,7 +48,7 @@ object Runner {
     }
 
     private fun printDay(dayClass: Class<out Day>) {
-        println("\n=== DAY ${dayNumber(dayClass.simpleName)} ===")
+        println("\n=== DAY ${dayClass.name} ===")
         val day = dayClass.constructors[0].newInstance() as Day
 
         val partOne = measureTimedValue { day.partOne() }

@@ -1,4 +1,4 @@
-package days
+package aoc._2022
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.nulls.shouldNotBeNull

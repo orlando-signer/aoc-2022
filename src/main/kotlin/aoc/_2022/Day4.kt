@@ -1,4 +1,6 @@
-package days
+package aoc._2022
+
+import aoc.Day
 
 class Day4 : Day(4) {
 

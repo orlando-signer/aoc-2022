@@ -6,7 +6,7 @@ plugins {
 }
 
 application {
-    mainClass.set("util.Runner")
+    mainClass.set("aoc.util.Runner")
 }
 
 version = "1.0-SNAPSHOT"

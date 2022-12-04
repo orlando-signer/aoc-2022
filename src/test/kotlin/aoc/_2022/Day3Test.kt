@@ -1,17 +1,17 @@
-package days
+package aoc._2022
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 
-class Day4Test : FunSpec({
+class Day3Test : FunSpec({
 
-    val day = Day4()
+    val day = Day3()
 
     test("testPartOne") {
-        day.partOne().shouldBe(2)
+        day.partOne().shouldBe(157)
     }
 
     test("testPartTwo") {
-        day.partTwo().shouldBe(4)
+        day.partTwo().shouldBe(70)
     }
 })

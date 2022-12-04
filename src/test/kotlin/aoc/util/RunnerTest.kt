@@ -1,12 +1,14 @@
-package util
+package aoc.util
 
 import com.github.stefanbirkner.systemlambda.SystemLambda.tapSystemErr
 import com.github.stefanbirkner.systemlambda.SystemLambda.tapSystemOut
+import io.kotest.core.annotation.Ignored
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldMatch
 import kotlin.time.ExperimentalTime
 
+@Ignored
 @OptIn(ExperimentalTime::class)
 class RunnerTest : FunSpec({
 
