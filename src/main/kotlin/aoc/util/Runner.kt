@@ -17,8 +17,7 @@ object Runner {
         if (args.isNotEmpty()) {
             val day = try {
                 args[0].toInt()
-            }
-            catch (e: NumberFormatException) {
+            } catch (e: NumberFormatException) {
                 printError("Day argument must be an integer")
                 return
             }
@@ -26,18 +25,15 @@ object Runner {
             val dayClass = getAllDayClasses()?.find { dayNumber(it.simpleName) == day }
             if (dayClass != null) {
                 printDay(dayClass)
-            }
-            else {
+            } else {
                 printError("Day $day not found")
             }
-        }
-        else {
+        } else {
             val allDayClasses = getAllDayClasses()
             println("allDayClasses: $allDayClasses")
             if (allDayClasses != null) {
                 allDayClasses.sortedBy { it.name }.forEach { printDay(it) }
-            }
-            else {
+            } else {
                 printError("Couldn't find day classes - make sure you're in the right directory and try building again")
             }
         }
@@ -51,13 +47,30 @@ object Runner {
         println("\n=== DAY ${dayClass.name} ===")
         val day = dayClass.constructors[0].newInstance() as Day
 
-        val partOne = measureTimedValue { day.partOne() }
-        val partTwo = measureTimedValue { day.partTwo() }
+        val (partOne, partTwo) = run(day)
         printParts(partOne, partTwo)
     }
 
+    private fun run(day: Day): Pair<TimedValue<Any>, TimedValue<Any>> {
+        return Pair(
+            measureTimedValue { safeExecute { day.partOne() } },
+            measureTimedValue { safeExecute { day.partTwo() } }
+        )
+    }
+
+    private fun safeExecute(block: () -> Any): Any {
+        return try {
+            block()
+        } catch (e: Exception) {
+            "Failed: $e"
+        }
+    }
+
     private fun printParts(partOne: TimedValue<Any>, partTwo: TimedValue<Any>) {
-        val padding = max(partOne.value.toString().length, partTwo.value.toString().length) + 14        // 14 is 8 (length of 'Part 1: ') + 6 more
+        val padding = max(
+            partOne.value.toString().length,
+            partTwo.value.toString().length
+        ) + 14        // 14 is 8 (length of 'Part 1: ') + 6 more
         println("Part 1: ${partOne.value}".padEnd(padding, ' ') + "(${partOne.duration})")
         println("Part 2: ${partTwo.value}".padEnd(padding, ' ') + "(${partTwo.duration})")
     }
