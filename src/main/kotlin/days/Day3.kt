@@ -23,7 +23,7 @@ class Day3 : Day(3) {
     }
 
     private fun mapCharToIndex(input: Char): Int {
-        return if (input.isUpperCase()) input.code - 38 else input.code - 96
+        return if (input.isUpperCase()) input - 'A' + 27 else input - 'a' + 1
     }
 
     private fun findIntersectingChar(input: List<String>): Char {
