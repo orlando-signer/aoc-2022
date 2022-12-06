@@ -6,8 +6,7 @@ class Day0 : Day(0) {
 
     override fun partOne(): Any {
         return inputList.take(2)
-            .map { it.uppercase() }
-            .joinToString(" ")
+            .joinToString(" ") { it.uppercase() }
     }
 
     override fun partTwo(): Any {
