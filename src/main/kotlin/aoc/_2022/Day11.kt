@@ -8,7 +8,7 @@ class Day11 : Day(11) {
     override fun partOne(): Any {
         val monkeys = inputString.split("\n\n").map { Monkey.from(it) }
         for (i in 0 until 20) {
-            monkeys.forEach { it.inspectAndThrow(monkeys) }
+            monkeys.forEach { it.inspectAndThrow1(monkeys) }
         }
         return monkeys.sortedByDescending { it.getInsepctions() }.take(2).map { it.getInsepctions() }
             .reduce { acc, value -> acc * value }
@@ -16,8 +16,10 @@ class Day11 : Day(11) {
 
     override fun partTwo(): Any {
         val monkeys = inputString.split("\n\n").map { Monkey.from(it) }
+        val worryLevelMod = inputList.filter { it.contains("divisible by") }.map { it.substringAfterLast(" ").toLong() }
+            .reduce { acc, value -> acc * value }
         for (i in 0 until 10000) {
-            monkeys.forEach { it.inspectAndThrow(monkeys) }
+            monkeys.forEach { it.inspectAndThrow2(monkeys, worryLevelMod) }
         }
         return monkeys.sortedByDescending { it.getInsepctions() }.take(2).map { it.getInsepctions() }
             .reduce { acc, value -> acc * value }
@@ -56,9 +58,20 @@ class Day11 : Day(11) {
             }
         }
 
-        fun inspectAndThrow(toMonkeys: List<Monkey>) {
+        fun inspectAndThrow1(toMonkeys: List<Monkey>) {
             inspections += items.size
             items.map { op(it) }.map { it / 3 }.forEach {
+                run {
+                    val toMonkey = test(it)
+                    toMonkeys[toMonkey].catchItem(it)
+                }
+            }
+            items.clear()
+        }
+
+        fun inspectAndThrow2(toMonkeys: List<Monkey>, worryLevelMod: Long) {
+            inspections += items.size
+            items.map { op(it) }.map { it % worryLevelMod }.forEach {
                 run {
                     val toMonkey = test(it)
                     toMonkeys[toMonkey].catchItem(it)
