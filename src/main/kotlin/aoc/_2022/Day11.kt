@@ -28,7 +28,7 @@ class Day11 : Day(11) {
     class Monkey(op: (input: Long) -> Long, test: (input: Long) -> Int, startingItems: List<Long>) {
         private val op = op
         private val test = test
-        internal val items = startingItems.toMutableList()
+        private val items = startingItems.toMutableList()
         private var inspections = 0.toLong()
 
         companion object {

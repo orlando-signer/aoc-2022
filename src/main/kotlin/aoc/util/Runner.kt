@@ -30,9 +30,10 @@ object Runner {
             }
         } else {
             val allDayClasses = getAllDayClasses()
-            println("allDayClasses: $allDayClasses")
             if (allDayClasses != null) {
-                allDayClasses.sortedBy { it.name }.forEach { printDay(it) }
+                allDayClasses.sortedWith(compareBy<Class<out Day>> {
+                    it.packageName.takeLast(4).toInt()
+                }.thenBy { dayNumber(it.simpleName) }).forEach { printDay(it) }
             } else {
                 printError("Couldn't find day classes - make sure you're in the right directory and try building again")
             }
@@ -79,5 +80,5 @@ object Runner {
         System.err.println("\n=== ERROR ===\n$message")
     }
 
-    private fun dayNumber(dayClassName: String) = dayClassName.replace("Day", "").toInt()
+    private fun dayNumber(dayClassName: String): Int = dayClassName.replace("Day", "").toInt()
 }

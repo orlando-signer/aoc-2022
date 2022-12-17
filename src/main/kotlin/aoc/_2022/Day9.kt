@@ -20,11 +20,9 @@ class Day9 : Day(9) {
 
         val rope = MutableList(n) { Point(0, 0) }
         inputList.forEach {
-            val splitted = it.split(" ")
-            val direction = directionFrom(splitted[0])
-            val amount = splitted[1].toInt()
+            val (direction, amount) = it.split(" ")
 
-            repeat(amount) {
+            repeat(amount.toInt()) {
                 rope[0] = rope[0].move(direction)
                 for (idx in 1 until rope.size) {
                     rope[idx] = rope[idx].follow(rope[idx - 1])
@@ -37,12 +35,13 @@ class Day9 : Day(9) {
     }
 
     data class Point(val x: Int, val y: Int) {
-        fun move(direction: Direction): Point {
+        fun move(direction: String): Point {
             return when (direction) {
-                Direction.UP -> Point(x, y + 1)
-                Direction.DOWN -> Point(x, y - 1)
-                Direction.LEFT -> Point(x - 1, y)
-                Direction.RIGHT -> Point(x + 1, y)
+                "U" -> Point(x, y + 1)
+                "D" -> Point(x, y - 1)
+                "L" -> Point(x - 1, y)
+                "R" -> Point(x + 1, y)
+                else -> throw IllegalStateException("somethings wrong: $direction")
             }
         }
 
@@ -56,19 +55,4 @@ class Day9 : Day(9) {
             return Point(x + xDiff.sign, y + yDiff.sign)
         }
     }
-
-    enum class Direction() {
-        UP, DOWN, LEFT, RIGHT
-    }
-
-    private fun directionFrom(string: String): Direction {
-        return when (string) {
-            "U" -> Direction.UP
-            "D" -> Direction.DOWN
-            "L" -> Direction.LEFT
-            "R" -> Direction.RIGHT
-            else -> throw IllegalStateException("fucked up: $string")
-        }
-    }
-
 }
