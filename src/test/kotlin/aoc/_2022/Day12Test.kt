@@ -12,6 +12,6 @@ class Day12Test : FunSpec({
     }
 
     test("testPartTwo") {
-        day.partTwo().shouldBe(2713310158)
+        day.partTwo().shouldBe(29)
     }
 })
