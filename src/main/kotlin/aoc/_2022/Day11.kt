@@ -42,10 +42,11 @@ class Day11 : Day(11) {
             }
 
             private fun parseOperation(string: String): (input: Long) -> Long {
+                val opVal = string.substringAfterLast(" ").toLongOrNull()
                 return when {
                     string.contains("old * old") -> { i: Long -> i * i }
-                    string.contains("+") -> { i: Long -> i + string.substringAfterLast(" ").toLong() }
-                    string.contains("*") -> { i: Long -> i * string.substringAfterLast(" ").toLong() }
+                    string.contains("+") -> { i: Long -> i + opVal!! }
+                    string.contains("*") -> { i: Long -> i * opVal!! }
                     else -> throw RuntimeException("i fucked up: $string")
                 }
             }
