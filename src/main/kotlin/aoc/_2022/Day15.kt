@@ -1,6 +1,7 @@
 package aoc._2022
 
 import aoc.Day
+import java.lang.IllegalStateException
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -9,7 +10,7 @@ class Day15 : Day(15) {
 
     override fun partOne(): Any {
         val signals = inputList.map { Signal.from(it) }
-        val y = 2000000 // change to 10 for test
+        val y = 10 // change to 2000000 for real result
         val signalOverlaps = mutableSetOf<Int>()
 
         for (signal in signals) {
@@ -25,7 +26,21 @@ class Day15 : Day(15) {
     }
 
     override fun partTwo(): Any {
-        return ""
+        val signals = inputList.map { Signal.from(it) }
+        val lim = 20
+        IntRange(0, lim).toList().parallelStream().forEach { x ->
+            IntRange(0, lim).forEach pointLoop@{ y ->
+                for (signal in signals) {
+                    if (abs(x - signal.x) + abs(y - signal.y) <= signal.manhattenDistance()) {
+                        return@pointLoop
+                    }
+                }
+                println("fucking found it @ $x:$y")
+                throw IllegalStateException()
+            }
+            println("x is $x")
+        }
+        return -1
     }
 
     data class Signal(val x: Int, val y: Int, val bX: Int, val bY: Int) {
