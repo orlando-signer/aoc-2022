@@ -26,21 +26,42 @@ class Day15 : Day(15) {
     }
 
     override fun partTwo(): Any {
+        // idea: the beacon is either on an edge, or in between 2 parallel lines (with a gap of 1) intersected by
+        // another pair of parallel lines (with a gap of 1)
+        // steps:
+        // 1. normalize lines (find intersection with y=0)
+
+        val lim = 20 // change to 4_000_000 for real result
         val signals = inputList.map { Signal.from(it) }
-        val lim = 20
-        IntRange(0, lim).toList().parallelStream().forEach { x ->
-            IntRange(0, lim).forEach pointLoop@{ y ->
-                for (signal in signals) {
-                    if (abs(x - signal.x) + abs(y - signal.y) <= signal.manhattenDistance()) {
-                        return@pointLoop
-                    }
+        drawIt(signals)
+
+        val zeroIntersectsFromUpRight = signals.map { it.x + abs(it.y - it.manhattenDistance()) }.toSet()
+        val zeroIntersectsFromUpLeft = signals.map { it.x - abs(it.y - it.manhattenDistance()) }.toSet()
+
+        // all lines that contain a neighbour with a gap of 1 (to the right)
+        val upRightPairs = zeroIntersectsFromUpRight.filter { zeroIntersectsFromUpRight.contains(it - 2) }
+        val upLeftPairs = zeroIntersectsFromUpLeft.filter { zeroIntersectsFromUpLeft.contains(it - 2) }
+
+        for (upRight in upRightPairs) {
+            for (upLeft in upLeftPairs)
+                if ((upRight + upLeft) / 2 < lim) {
+                    println("candidate with $upRight -> $upLeft = ${(upRight + upLeft) / 2}")
                 }
-                println("fucking found it @ $x:$y")
-                throw IllegalStateException()
-            }
-            println("x is $x")
         }
         return -1
+    }
+
+    fun drawIt(signals: List<Signal>) {
+
+        for (s in signals) {
+            println("Signal $s")
+            for (y in -20..30) {
+                for (x in -20..30) {
+                    print(if (abs(s.x - x) + abs(s.y - y) <= s.manhattenDistance()) "#" else ".")
+                }
+                println("  $y")
+            }
+        }
     }
 
     data class Signal(val x: Int, val y: Int, val bX: Int, val bY: Int) {
