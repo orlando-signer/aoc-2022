@@ -33,7 +33,7 @@ class Day15 : Day(15) {
 
         val lim = 20 // change to 4_000_000 for real result
         val signals = inputList.map { Signal.from(it) }
-        drawIt(signals)
+       // drawIt(signals)
 
         val zeroIntersectsFromUpRight = signals.map { it.x + abs(it.y - it.manhattenDistance()) }.toSet()
         val zeroIntersectsFromUpLeft = signals.map { it.x - abs(it.y - it.manhattenDistance()) }.toSet()
@@ -51,7 +51,7 @@ class Day15 : Day(15) {
         return -1
     }
 
-    fun drawIt(signals: List<Signal>) {
+    private fun drawIt(signals: List<Signal>) {
 
         for (s in signals) {
             println("Signal $s")
