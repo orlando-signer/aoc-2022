@@ -18,11 +18,7 @@ class Day2 : Day(2) {
     }
 
     override fun partTwo(): Any {
-        inputList.forEach {
-            val safe = isDampenedReportSafe(it.split(" ").map { it.toInt() })
-            println("$it -> $safe")
-        }
-        return 0
+        return inputList.count{isDampenedReportSafe(it.split(" ").map { it.toInt() }) }
     }
 
     private fun isDampenedReportSafe(report: List<Int>): Boolean {
