@@ -40,6 +40,24 @@ class Day4 : Day(4) {
     }
 
     override fun partTwo(): Any {
-        return -1
+        var count = 0
+        for (y in 1 until inputList.size - 1) {
+            for (x in 1 until inputList[0].length - 1) {
+                if (inputList[y][x] == 'A') {
+                    val nw = inputList[y - 1][x - 1]
+                    val ne = inputList[y - 1][x + 1]
+                    val sw = inputList[y + 1][x - 1]
+                    val se = inputList[y + 1][x + 1]
+
+                    if (((nw == 'M' || nw == 'S') && (se == 'M' || se == 'S'))
+                        && ((nw == ne && sw == se && nw != sw)
+                                || (nw == sw && ne == se && nw != ne))
+                    ) {
+                        count++
+                    }
+                }
+            }
+        }
+        return count
     }
 }
