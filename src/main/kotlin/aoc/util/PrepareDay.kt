@@ -4,7 +4,7 @@ import java.io.File
 
 object PrepareDay {
     private val year = "_2024"
-    private val day: Int = 6
+    private val day: Int = 7
 
     @JvmStatic
     fun main(args: Array<String>) {
