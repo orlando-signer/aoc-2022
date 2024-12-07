@@ -29,6 +29,8 @@ class Day7 : Day(7) {
     private fun reduce(numbers: List<Long>, expectedValue: Long): Boolean {
         if (numbers.size == 1) {
             return numbers.first() == expectedValue
+        } else if (numbers.first() > expectedValue) {
+            return false
         }
         return reduce(listOf(numbers[0] * numbers[1]) + numbers.drop(2), expectedValue)
                 || reduce(listOf(numbers[0] + numbers[1]) + numbers.drop(2), expectedValue)
@@ -37,6 +39,8 @@ class Day7 : Day(7) {
     private fun reducePart2(numbers: List<Long>, expectedValue: Long): Boolean {
         if (numbers.size == 1) {
             return numbers.first() == expectedValue
+        } else if (numbers.first() > expectedValue) {
+            return false
         }
         return reducePart2(listOf(numbers[0] * numbers[1]) + numbers.drop(2), expectedValue)
                 || reducePart2(listOf(numbers[0] + numbers[1]) + numbers.drop(2), expectedValue)
