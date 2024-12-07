@@ -5,11 +5,20 @@ import aoc.Day
 class Day7 : Day(7) {
 
     override fun partOne(): Any {
+        return evaluate(this::reduce)
+    }
+
+    override fun partTwo(): Any {
+        return evaluate(this::reducePart2)
+
+    }
+
+    private fun evaluate(reduceOp: (List<Long>) -> List<Long>): Long {
         var result = 0L
-        inputList.forEach {
+        inputList.forEach { // Berni Tribute Code, zwischendurch ists auch mit ner Loop einfacher ;)
             val expectedValue = it.split(":").first().toLong()
             val numbers = it.split(":")[1].trim().split(" ").map { it.toLong() }
-            val evaluated = reduce(numbers)
+            val evaluated = reduceOp.invoke(numbers)
             if (evaluated.contains(expectedValue)) {
                 result += expectedValue
             }
@@ -26,7 +35,12 @@ class Day7 : Day(7) {
             .plus(reduce(listOf(numbers[0] + numbers[1]) + numbers.drop(2)))
     }
 
-    override fun partTwo(): Any {
-        return -1
+    private fun reducePart2(numbers: List<Long>): List<Long> {
+        if (numbers.size == 1) {
+            return numbers
+        }
+        return reducePart2(listOf(numbers[0] * numbers[1]) + numbers.drop(2))
+            .plus(reducePart2(listOf(numbers[0] + numbers[1]) + numbers.drop(2)))
+            .plus(reducePart2(listOf((numbers[0].toString() + numbers[1].toString()).toLong()) + numbers.drop(2)))
     }
 }
