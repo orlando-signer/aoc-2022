@@ -4,10 +4,10 @@ import java.io.File
 
 object PrepareDay {
     private val year = "_2024"
-    private val day: Int = 7
+    private val day: Int = 8
 
     @JvmStatic
-    fun main(args: Array<String>) {
+    fun myain(args: Array<String>) {
         initDay()
         initDayTest()
         initInput()
