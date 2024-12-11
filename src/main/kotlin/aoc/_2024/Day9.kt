@@ -16,10 +16,12 @@ class Day9 : Day(9) {
             repeat(number) { disk.add(value) }
         }
 
+        var lastOccupiedSpaced = disk.size - 1
         for (i in disk.indices) {
             if (disk[i] == -1) {
-                for (j in disk.size - 1 downTo i) {
+                for (j in lastOccupiedSpaced downTo i) {
                     if (disk[j] != -1) {
+                        lastOccupiedSpaced = j
                         disk[i] = disk[j]
                         disk[j] = -1
                         break
