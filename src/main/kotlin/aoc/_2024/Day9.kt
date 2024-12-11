@@ -2,10 +2,6 @@ package aoc._2024
 
 import aoc.Day
 
-fun main() {
-    println(Day9().partTwo())
-}
-
 class Day9 : Day(9) {
 
     override fun partOne(): Any {
