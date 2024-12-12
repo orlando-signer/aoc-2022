@@ -13,17 +13,17 @@ class Day11 : Day(11) {
     }
 
     private fun countStones(iterations: Int): Long {
-        var stonesCount = inputString.split(" ").map { it.toLong() }.groupingBy { it }.eachCount().mapValues { it.value.toLong() }
+        var stonesCount = inputString.split(" ")
+            .map { it.toLong() }.groupingBy { it }.eachCount().mapValues { it.value.toLong() }
         val stoneCache = mutableMapOf<Long, List<Long>>()
         repeat(iterations) {
-            val nextStones = mutableMapOf<Long, Long>()
-            for (stoneWithCount in stonesCount) {
-                val newStones = stoneCache.getOrPut(stoneWithCount.key) { mapStone(stoneWithCount.key) }
-                newStones.forEach{
-                    nextStones.merge(it, stoneWithCount.value, Long::plus)
+            val nextStonesCount = mutableMapOf<Long, Long>()
+            for ((stone, count) in stonesCount) {
+                stoneCache.getOrPut(stone) { mapStone(stone) }.forEach {
+                    nextStonesCount.merge(it, count, Long::plus)
                 }
             }
-            stonesCount = nextStones
+            stonesCount = nextStonesCount
         }
         return stonesCount.values.sum()
     }
