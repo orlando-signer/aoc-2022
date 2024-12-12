@@ -22,63 +22,78 @@ object Runner {
                 return
             }
 
-            val dayClass = getAllDayClasses()?.find { dayNumber(it.simpleName) == day }
+            val dayClass = getAllDayClasses()?.find { it.simpleName.replace("Day", "").toInt() == day }
             if (dayClass != null) {
-                printDay(dayClass)
+                println(DayRunner(dayClass).result)
             } else {
                 printError("Day $day not found")
             }
         } else {
             val allDayClasses = getAllDayClasses()
             if (allDayClasses != null) {
-                allDayClasses.sortedWith(compareBy<Class<out Day>> {
-                    it.packageName.takeLast(4).toInt()
-                }.thenBy { dayNumber(it.simpleName) }).forEach { printDay(it) }
+                allDayClasses.parallelStream()
+                    .map { DayRunner(it) }
+                    .toList()
+                    .sortedWith(dayComparator)
+                    .forEach { println(it.result) }
             } else {
                 printError("Couldn't find day classes - make sure you're in the right directory and try building again")
             }
         }
     }
 
+    private val dayComparator = compareBy<DayRunner> { it.dayClass.packageName.takeLast(4).toInt() }
+        .thenBy { it.dayNumber() }
+
+    class DayRunner(val dayClass: Class<out Day>) {
+
+        val result: String
+
+        init {
+            result = getResultString()
+        }
+
+        private fun getResultString(): String {
+            val day = dayClass.constructors[0].newInstance() as Day
+
+            val (partOne, partTwo) = run(day)
+            val result = getPartsString(partOne, partTwo)
+            return "\n=== DAY ${dayClass.name} ===\n" + result
+        }
+
+
+        private fun run(day: Day): Pair<TimedValue<Any>, TimedValue<Any>> {
+            return Pair(
+                measureTimedValue { safeExecute { day.partOne() } },
+                measureTimedValue { safeExecute { day.partTwo() } }
+            )
+        }
+
+        private fun safeExecute(block: () -> Any): Any {
+            return try {
+                block()
+            } catch (e: Exception) {
+                "Failed: $e"
+            }
+        }
+
+        private fun getPartsString(partOne: TimedValue<Any>, partTwo: TimedValue<Any>): String {
+            val padding = max(
+                partOne.value.toString().length,
+                partTwo.value.toString().length
+            ) + 14        // 14 is 8 (length of 'Part 1: ') + 6 more
+            return "Part 1: ${partOne.value}".padEnd(padding, ' ') + "(${partOne.duration})\n" +
+                    "Part 2: ${partTwo.value}".padEnd(padding, ' ') + "(${partTwo.duration})"
+        }
+
+        fun dayNumber(): Int = dayClass.simpleName.replace("Day", "").toInt()
+    }
+
     private fun getAllDayClasses(): MutableSet<Class<out Day>>? {
         return reflections.getSubTypesOf(Day::class.java)
-    }
-
-    private fun printDay(dayClass: Class<out Day>) {
-        println("\n=== DAY ${dayClass.name} ===")
-        val day = dayClass.constructors[0].newInstance() as Day
-
-        val (partOne, partTwo) = run(day)
-        printParts(partOne, partTwo)
-    }
-
-    private fun run(day: Day): Pair<TimedValue<Any>, TimedValue<Any>> {
-        return Pair(
-            measureTimedValue { safeExecute { day.partOne() } },
-            measureTimedValue { safeExecute { day.partTwo() } }
-        )
-    }
-
-    private fun safeExecute(block: () -> Any): Any {
-        return try {
-            block()
-        } catch (e: Exception) {
-            "Failed: $e"
-        }
-    }
-
-    private fun printParts(partOne: TimedValue<Any>, partTwo: TimedValue<Any>) {
-        val padding = max(
-            partOne.value.toString().length,
-            partTwo.value.toString().length
-        ) + 14        // 14 is 8 (length of 'Part 1: ') + 6 more
-        println("Part 1: ${partOne.value}".padEnd(padding, ' ') + "(${partOne.duration})")
-        println("Part 2: ${partTwo.value}".padEnd(padding, ' ') + "(${partTwo.duration})")
     }
 
     private fun printError(message: String) {
         System.err.println("\n=== ERROR ===\n$message")
     }
-
-    private fun dayNumber(dayClassName: String): Int = dayClassName.replace("Day", "").toInt()
 }
