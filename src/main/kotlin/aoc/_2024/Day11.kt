@@ -5,38 +5,40 @@ import aoc.Day
 class Day11 : Day(11) {
 
     override fun partOne(): Any {
-        var stones = inputString.split(" ").map { it.toLong() }
-        repeat(25) {
-            stones = mapStones(stones)
-        }
-        return stones.size
+        return countStones(25)
     }
 
     override fun partTwo(): Any {
-        var stones = inputString.split(" ").map { it.toLong() }
-        repeat(75) {
-            stones = mapStones(stones)
-            println(it)
-        }
-        return stones.size
+        return countStones(75)
     }
 
-    private fun mapStones(stones: List<Long>): List<Long> {
-        val newStones = mutableListOf<Long>()
-        stones.forEach { stone ->
-            run {
-                val stoneStr = stone.toString()
-                if (stone == 0L) {
-                    newStones.add(1)
-                } else if (stoneStr.length % 2 == 0) {
-                    newStones += stoneStr.take(stoneStr.length / 2).toLong()
-                    newStones += stoneStr.drop(stoneStr.length / 2).toLong()
-                } else {
-                    newStones += stone * 2024
+    private fun countStones(iterations: Int): Long {
+        var stonesCount = inputString.split(" ").map { it.toLong() }.groupingBy { it }.eachCount().mapValues { it.value.toLong() }
+        val stoneCache = mutableMapOf<Long, List<Long>>()
+        repeat(iterations) {
+            val nextStones = mutableMapOf<Long, Long>()
+            for (stoneWithCount in stonesCount) {
+                val newStones = stoneCache.getOrPut(stoneWithCount.key) { mapStone(stoneWithCount.key) }
+                newStones.forEach{
+                    nextStones.merge(it, stoneWithCount.value, Long::plus)
                 }
             }
+            stonesCount = nextStones
         }
-        return newStones
+        return stonesCount.values.sum()
     }
 
+    private fun mapStone(stone: Long): List<Long> {
+        val stoneStr = stone.toString()
+        if (stone == 0L) {
+            return listOf(1)
+        } else if (stoneStr.length % 2 == 0) {
+            return listOf(
+                stoneStr.take(stoneStr.length / 2).toLong(),
+                stoneStr.drop(stoneStr.length / 2).toLong()
+            )
+        }
+        return listOf(stone * 2024)
+    }
 }
+

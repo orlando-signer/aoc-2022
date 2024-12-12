@@ -12,6 +12,6 @@ class Day11Test : FunSpec({
     }
 
     test("testPartTwo") {
-        day.partTwo().shouldBe(TODO("Set value from example 2"))
+        day.partTwo().shouldBe(65601038650482L)
     }
 })
