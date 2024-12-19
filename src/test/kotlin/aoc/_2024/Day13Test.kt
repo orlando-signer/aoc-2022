@@ -14,6 +14,6 @@ class Day13Test : FunSpec({
     }
 
     test("testPartTwo") {
-        day.partTwo().shouldBe(BigInteger("1"))
+        day.partTwo().shouldBe(BigInteger("875318608908"))
     }
 })

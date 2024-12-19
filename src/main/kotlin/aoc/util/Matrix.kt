@@ -59,7 +59,7 @@ class Matrix(val values: List<List<BigDecimal>>) {
         if (values.any { it.size != n }) {
             throw IllegalStateException("Matrix is not $n * $n")
         }
-        val A = values.map { it.map { it.setScale(10) }.toMutableList() }.toMutableList()
+        val A = values.map { it.map { it.setScale(20) }.toMutableList() }.toMutableList()
         val pi = MutableList(n) { it }
 
         for (k in 0..<n) {

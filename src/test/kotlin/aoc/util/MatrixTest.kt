@@ -48,4 +48,17 @@ class MatrixTest : FunSpec({
         val x = matrix.solveLinearEquation(b)
         x.shouldContainExactly(listOf("-1.01875", "1.8375", "1.75625", "1.575").map { BigDecimal(it) })
     }
+
+    test("solve linear equation big numbers") {
+        val matrix = Matrix.ofString(
+            listOf(
+                "26 67",
+                "66 21"
+            )
+        )
+        val b = listOf("10000000012748", "10000000012176").map { BigDecimal(it) }
+
+        val x = matrix.solveLinearEquation(b)
+        x.shouldContainExactly(listOf("118679050709", "103199174542").map { BigDecimal(it) })
+    }
 })
