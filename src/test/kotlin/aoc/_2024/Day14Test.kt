@@ -12,7 +12,7 @@ class Day14Test : FunSpec({
     }
 
     test("testPartTwo") {
-        day.partTwo().shouldBe(34) // its not a tree, its a monster!
+        day.partTwo().shouldBe(6) // its not a tree, its a monster!
     }
 
     test("simple robot") {

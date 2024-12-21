@@ -37,8 +37,11 @@ class Day14 : Day(14) {
         var mostBeautifulTreeAfterSeconds = Int.MAX_VALUE
         for (i in 1..10000) {
             val newRobots = robots.map { it.afterIterations(i, gridSize) }
-            val entropy = newRobots.sumOf { robot ->
-                newRobots.sumOf { sqrt((it.x * robot.x + it.y * robot.y).toDouble()) }
+            var entropy = 0.0
+            for(j in newRobots.indices){
+                for(k in j+1 until newRobots.size){
+                    entropy +=  sqrt((newRobots[k].x * newRobots[k].x + newRobots[k].y * newRobots[k].y).toDouble())
+                }
             }
             if (entropy < lowestEntropy) {
                 lowestEntropy = entropy
