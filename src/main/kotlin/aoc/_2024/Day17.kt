@@ -10,7 +10,7 @@ class Day17 : Day(17) {
             .map { it.trim().toLong() }
         val registers = Registers(regValues[0], regValues[1], regValues[2], 0)
 
-        return TODO("Implement Part One")
+        return -1
     }
 
     fun execute(opcode: Long, operand: Long, registers: Registers) {
@@ -71,7 +71,7 @@ class Day17 : Day(17) {
 
 
     override fun partTwo(): Any {
-        return TODO("Implement Part Two")
+        return -2
     }
 
     class Registers(var regA: Long, var regB: Long, var regC: Long, pc: Long)
